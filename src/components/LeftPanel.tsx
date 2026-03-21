@@ -1,18 +1,18 @@
-import React, {useState} from "react";
-
-const sizes = [
-    {label: "Neliö 250 ml", value: 250},
-    {label: "Neliö 500 ml", value:500},
-    {label: "Ympyrä 250 ml", value: 250},
-    {label: "Ympyrä 500 ml", value: 500}
-];
+import React from "react";
 
  export function LeftPanel(){
-    const [selected, setSelected] = useState(3);
-
     return(
-        <div className="left-panel">
-            <h3>1. Valitse rasia</h3>
+        <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center shadow-lg">
+            <div className="bg-white text-black font-bold rounded-full w-8 h-8 flex items-center justify-center mb-4 shrink-0">
+                1.
+            </div>
+            <h2 className="text-lg font-semibold mb-6">Valitse rasia</h2>
+            <div className="w-full flex flex-col gap-4">
+                <div className="h-12 border-2 border-gray-600 rounded-xl flex items-center px-4" />
+                <div className="h-12 border-2 border-gray-600 rounded-xl flex items-center px-4" />
+                <div className="h-12 border-2 border-gray-600 rounded-xl flex items-center px-4" />
+                <div className="h-12 border-2 border-gray-600 rounded-xl flex items-center px-4" />
+            </div>
         </div>
-    )
-}
+    );
+};
