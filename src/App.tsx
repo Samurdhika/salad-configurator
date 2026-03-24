@@ -15,11 +15,12 @@ export default function App() {
         <LeftPanel />
         <CenterBowl />
         <BaseSelection />
-        <SummaryBar />
-        <Footer />
+        
       </div>
 
       <IngredientSection />
+      <SummaryBar />
+      <Footer />
     </div>
       
   );
