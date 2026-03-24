@@ -1,29 +1,20 @@
+import React from 'react';
+import { LeftPanel } from './components/LeftPanel';
+import { BaseSelection } from './components/BaseSelection';
+import { CenterBowl } from './components/CenterBowl';
+import { IngredientSection } from './components/IngredientSection';
 
-import Footer from "./components/Footer";
-import SummaryBar from "./components/SummaryBar";
-
-function App() {
+export default function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-white font-sans">
+    <div className="min-h-screen bg-gray-100 p-8 flex flex-col gap-8">
+        <div className ="flex gap-8 items-start justify-center">
+        <LeftPanel />
+        <CenterBowl />
+        <BaseSelection />
+      </div>
 
-      
-      
-      
-
-      <main className="flex-1 max-w-6xl w-full mx-auto p-6 flex flex-col gap-8 mt-4">
-
-        
-
-       
-
-        {/* SUMMARY */}
-        <SummaryBar />
-
-      </main>
-
-      <Footer />
+      <IngredientSection />
     </div>
+      
   );
 }
-
-export default App;
