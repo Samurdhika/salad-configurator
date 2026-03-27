@@ -1,4 +1,4 @@
-export default function Footer() {
+export function Footer() {
   return (
     <footer className="bg-[#A2D135] text-white w-full px-10 py-12 mt-12">
       
