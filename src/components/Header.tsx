@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link } from 'react-router-dom';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -7,24 +8,26 @@ export default function Header() {
     <header className="relative w-full h-32">
       {/* Background with rounded bottom corners */}
       <div className="absolute inset-0 overflow-hidden rounded-b-3xl">
-        <img
-          src="/header-bg.jpg"
-          alt="food"
-          className="w-full h-full object-cover"
-        />
+        
         <div className="bg-zinc-800 absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
       </div>
 
       <div className="relative z-10 flex items-center justify-between h-full px-8 text-white">
         {/* Logo */}
-        <div className="w-16 h-16 rounded-full border-4 border-[#A2D135] flex items-center justify-center">
-          <span className="font-extrabold text-[10px] text-[#A2D135]">FRESSE</span>
+        <div className="bg-zinc-800 text-white w-full h-32 flex justify-between items-start px-8 pt-4">
+          <Link to="/" className="w-24 h-24 rounded-full border-4 border-[#A2D135] flex items-center justify-center flex-col -mt-2 bg-zinc-800 shadow-lg">
+          <span>Fresh Food Factory</span>
+          <span>FRESH</span>
+          </Link>
+          
         </div>
 
         {/* Title */}
         <h1 className="text-3xl font-black tracking-widest mt-6">
           BOWL-LASKURI
         </h1>
+
+        
 
         {/* Menu Section */}
         <div className="relative">
@@ -52,13 +55,13 @@ export default function Header() {
 
               {/* Menu Items */}
               <div className="flex flex-col gap-8 w-full px-4">
-                <button className="flex items-center gap-5 font-semibold text-lg hover:opacity-70 transition-opacity">
+                <button className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity">
                   <UserIcon /> Kirjaudu sisään
                 </button>
-                <button className="flex items-center gap-5 font-semibold text-lg hover:opacity-70 transition-opacity">
-                  <BookmarkIcon /> Tallennetut reseptit
+                <button className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity">
+                  <BookmarkIcon /> <Link to="/community">Tallennetut reseptit</Link>
                 </button>
-                <button className="flex items-center gap-5 font-semibold text-lg hover:opacity-70 transition-opacity">
+                <button className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity">
                   <HelpIcon /> Ohjeet ja tuki
                 </button>
               </div>
