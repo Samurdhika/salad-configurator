@@ -9,7 +9,7 @@ import {Footer} from './components/Footer';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-100 p-8 flex flex-col gap-8">
+    <div className="min-h-screen bg-gray-100 p-8 flex flex-col gap-8 font-sans">
       <Header />
         <div className ="flex gap-8 items-start justify-center">
         <LeftPanel />
