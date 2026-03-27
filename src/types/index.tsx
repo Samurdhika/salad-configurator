@@ -4,6 +4,7 @@ export interface PriceListItem {
     item_id:number;
     price:number;
     type:string;
+    }
 =======
 export interface User {
     id:number;
