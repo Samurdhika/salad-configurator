@@ -1,4 +1,4 @@
-export default function SummaryBar() {
+export function SummaryBar() {
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full flex flex-col md:flex-row gap-8 shadow-xl">
       
