@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 export interface PriceListItem {
     id:number;
     item_id:number;
@@ -35,5 +35,14 @@ export interface Recipe{
     bowlId: number;
     ingredientIds: number[];
     is_public: boolean;
->>>>>>> sanu
+
+}
+
+export interface Category {
+  id: number;
+  name: string;
+}
+
+export interface Ingredient extends BaseType {
+  categoryId: number;
 }
