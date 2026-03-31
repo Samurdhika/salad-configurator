@@ -21,7 +21,7 @@ export async function getCategories(){
 }
 
 export async function getIngredients(){
-    const response = await fetch(`${URL}/ingrediants`);
+    const response = await fetch(`${URL}/ingredients`);
 
     if(!response.ok){
         throw new Error("error");
