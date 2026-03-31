@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from '../components/Header'
 import { LeftPanel } from '../components/LeftPanel';
 import { BaseSelection } from '../components/BaseSelection';
@@ -7,11 +7,25 @@ import { IngredientSection } from '../components/IngredientSection';
 import {SummaryBar} from '../components/SummaryBar';
 import {Footer} from '../components/Footer';
 import type { Bowl, Ingredient, Category } from '../types';
+import { getBowls } from '../services/api';
 
 export function Configurator(){
   const [bowls, setBowls] = useState<Bowl[]>([]);
   const [category, setCategory] = useState<Category[]>([]);
   const [ingrediant, setIngrediant] = useState<Ingredient[]>([]);
+
+  useEffect(() => {
+    async function fetchBowls() {
+      try {
+        const data = await getBowls();
+        setBowls(data);
+      } catch (error) {
+        console.error("Failed to fetch bowls:", error);
+      }
+    }
+
+    fetchBowls();
+  }, []);
 
     return (
         <div className="min-h-screen bg-white p-8 flex flex-col gap-8">
