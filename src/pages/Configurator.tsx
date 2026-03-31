@@ -8,6 +8,7 @@ import {SummaryBar} from '../components/SummaryBar';
 import {Footer} from '../components/Footer';
 import type { Bowl, Ingredient, Category } from '../types';
 import { getBowls } from '../services/api';
+import { getCategories } from '../services/api';
 
 export function Configurator(){
   const [bowls, setBowls] = useState<Bowl[]>([]);
@@ -25,6 +26,17 @@ export function Configurator(){
     }
 
     fetchBowls();
+
+    async function fetchCategories() {
+      try {
+        const data = await getCategories();
+        setCategory(data);
+      } catch (error) {
+        console.error("Failed to fetch Categories:", error);
+      }
+    }
+
+    fetchCategories();
   }, []);
 
     return (
