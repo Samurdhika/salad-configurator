@@ -9,6 +9,8 @@ import {Footer} from '../components/Footer';
 import type { Bowl, Ingredient, Category } from '../types';
 import { getBowls } from '../services/api';
 import { getCategories } from '../services/api';
+import { getIngredients } from '../services/api';
+
 
 export function Configurator(){
   const [bowls, setBowls] = useState<Bowl[]>([]);
@@ -37,6 +39,17 @@ export function Configurator(){
     }
 
     fetchCategories();
+
+    async function fetchIngredients() {
+      try {
+        const data = await getIngredients();
+        setIngrediant(data);
+      } catch (error) {
+        
+      }
+    }
+
+    fetchIngredients();
   }, []);
 
     return (
