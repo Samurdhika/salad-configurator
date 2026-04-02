@@ -10,7 +10,7 @@ export interface BaseType {
   id: number;
   name: string;
   price?: number;
-  image_url?: string;
+  image_url: string;
   barcode_url?: string;
 }
 
