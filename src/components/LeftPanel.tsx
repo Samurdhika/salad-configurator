@@ -18,7 +18,11 @@ interface Props {
                     key={bowl.id}
                     className="h-12 border-2 border-gray-600 rounded-xl flex items-center px-4"
                     >
-                        {bowl.name}
+                        <img 
+                        src={bowl.image_url}
+                        alt={bowl.name}
+                        className="h-8 w-8 object-contain" />
+                        <span>{bowl.name}</span>
                     </div>
                 ))}
                 </div>
