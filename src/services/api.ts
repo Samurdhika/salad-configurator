@@ -22,7 +22,7 @@ export async function getCategories(){
 }
 
 export async function getIngredients(){
-    const response = await fetch(`${URL}/ingredients`);
+    const response = await fetch(`https://fresse-api.onrender.com/api/baseingredients`);
 
     if(!response.ok){
         throw new Error("error");
