@@ -62,7 +62,8 @@ export function Configurator(){
                 
               </div>
         
-              <IngredientSection />
+              <IngredientSection categories={category} 
+                                 ingredients={ingrediant} />
               <SummaryBar />
               <Footer />
             </div>

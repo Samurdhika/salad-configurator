@@ -12,7 +12,7 @@ export async function getBowls(){
 }
 
 export async function getCategories(){
-    const response = await fetch(`${URL}/categories`);
+    const response = await fetch(`https://fresse-api.onrender.com/api/categories?type_id=[|2]`);
 
     if(!response.ok){
         throw new Error ("error");
