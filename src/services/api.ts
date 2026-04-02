@@ -1,7 +1,8 @@
 const URL = "https://fresse-api.onrender.com/api";
 
 export async function getBowls(){
-    const response = await fetch(`${URL}/bowls`);
+    const response = await fetch(` https://fresse-api.onrender.com/api/bowls?type_id=[1|2]
+`);
 
     if (!response.ok) {
         throw new Error ("error");

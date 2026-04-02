@@ -56,7 +56,7 @@ export function Configurator(){
         <div className="min-h-screen bg-white p-8 flex flex-col gap-8">
               <Header />
                 <div className ="flex gap-8 items-start justify-center">
-                <LeftPanel />
+                <LeftPanel bowls={bowls}/>
                 <CenterBowl />
                 <BaseSelection />
                 
