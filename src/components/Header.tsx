@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import fresseLogo from '../assets/fresse-logo.png'; 
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,18 +9,20 @@ export default function Header() {
     <header className="relative w-full h-32">
       {/* Background with rounded bottom corners */}
       <div className="absolute inset-0 overflow-hidden rounded-b-3xl">
-        
         <div className="bg-zinc-800 absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
       </div>
 
       <div className="relative z-10 flex items-center justify-between h-full px-8 text-white">
-        {/* Logo */}
-        <div className="bg-zinc-800 text-white w-full h-32 flex justify-between items-start px-8 pt-4">
-          <Link to="/" className="w-24 h-24 rounded-full border-4 border-[#A2D135] flex items-center justify-center flex-col -mt-2 bg-zinc-800 shadow-lg">
-          <span>Fresh Food Factory</span>
-          <span>FRESH</span>
+        
+        {/* Fixed Logo Implementation */}
+        <div className="flex items-start pt-4">
+          <Link to="/" className="w-24 h-24 flex items-center justify-center -mt-2 overflow-hidden">
+            <img 
+              src={fresseLogo} 
+              alt="Fresse Logo" 
+              className="w-full h-full object-contain" 
+            />
           </Link>
-          
         </div>
 
         {/* Title */}
@@ -27,11 +30,8 @@ export default function Header() {
           BOWL-LASKURI
         </h1>
 
-        
-
         {/* Menu Section */}
         <div className="relative">
-          {/* Hamburger Icon - Hidden when menu is open to match image flow */}
           {!isMenuOpen && (
             <button onClick={() => setIsMenuOpen(true)} className="p-2">
               <div className="space-y-1.5 border border-zinc-500 p-2 rounded-md">
@@ -42,18 +42,14 @@ export default function Header() {
             </button>
           )}
 
-          {/* Green Dropdown Menu */}
           {isMenuOpen && (
             <div className="bg-[#A2D135] text-black rounded-[3rem] pt-6 pb-12 px-6 flex flex-col items-center gap-8 min-w-[240px] shadow-2xl absolute -top-4 -right-4 z-50">
-              
-              {/* Close / Hamburger indicator at top */}
               <button onClick={() => setIsMenuOpen(false)} className="flex flex-row gap-1 mb-2">
                 <div className="w-1 h-8 bg-white rounded-full"></div>
                 <div className="w-1 h-8 bg-white rounded-full"></div>
                 <div className="w-1 h-8 bg-white rounded-full"></div>
               </button>
 
-              {/* Menu Items */}
               <div className="flex flex-col gap-8 w-full px-4">
                 <button className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity">
                   <UserIcon /> Kirjaudu sisään
