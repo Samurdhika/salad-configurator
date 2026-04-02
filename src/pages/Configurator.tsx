@@ -58,7 +58,7 @@ export function Configurator(){
                 <div className ="flex gap-8 items-start justify-center">
                 <LeftPanel bowls={bowls}/>
                 <CenterBowl />
-                <BaseSelection />
+                <BaseSelection ingredients={ingrediant} />
                 
               </div>
         
