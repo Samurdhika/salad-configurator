@@ -1,5 +1,3 @@
-const URL = "https://fresse-api.onrender.com/api";
-
 export async function getBowls(){
     const response = await fetch(` https://fresse-api.onrender.com/api/bowls?type_id=[1|2]
 `);
