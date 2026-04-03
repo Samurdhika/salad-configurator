@@ -10,12 +10,14 @@ import type { Bowl, Ingredient, Category } from '../types';
 import { getBowls } from '../services/api';
 import { getCategories } from '../services/api';
 import { getIngredients } from '../services/api';
-
+import { useIngredientStore } from '../store/useIngredientStore'; // ADDED THIS
 
 export function Configurator(){
   const [bowls, setBowls] = useState<Bowl[]>([]);
   const [category, setCategory] = useState<Category[]>([]);
   const [ingrediant, setIngrediant] = useState<Ingredient[]>([]);
+
+  const baseType = useIngredientStore((state) => state.baseType); // ADDED THIS
 
   useEffect(() => {
     async function fetchBowls() {
@@ -52,17 +54,20 @@ export function Configurator(){
     fetchIngredients();
   }, []);
 
+    const filteredBowls = bowls.filter(bowl => bowl.base_type_id === baseType);
+    const filteredCategories = category.filter(cat => cat.base_type_id === baseType);
+
     return (
         <div className="min-h-screen bg-white p-8 flex flex-col gap-8">
               <Header />
                 <div className ="flex gap-8 items-start justify-center">
-                <LeftPanel bowls={bowls}/>
+                <LeftPanel bowls={filteredBowls}/> {/* UPDATED TO filteredBowls */}
                 <CenterBowl />
                 <BaseSelection ingredients={ingrediant} />
                 
               </div>
         
-              <IngredientSection categories={category} 
+              <IngredientSection categories={filteredCategories}  // UPDATED TO filteredCategories
                                  ingredients={ingrediant} />
               <SummaryBar />
               <Footer />
@@ -70,4 +75,3 @@ export function Configurator(){
     );
     
 }
-
