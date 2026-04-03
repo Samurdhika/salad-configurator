@@ -1,11 +1,15 @@
 import React from "react";
 import type {Bowl} from "../types";
+import { useIngredientStore } from "../store/useIngredientStore"; // ADDED THIS
 
 interface Props {
     bowls: Bowl[];
 }
 
  export function LeftPanel({bowls}: Props){
+    const setBowl = useIngredientStore((state) => state.setBowl); // ADDED THIS
+    const selectedBowl = useIngredientStore((state) => state.selectedBowl); // ADDED THIS
+
     return(
         <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center shadow-lg">
             <div className="bg-white text-black font-bold rounded-full w-8 h-8 flex items-center justify-center mb-4 shrink-0">
@@ -16,13 +20,18 @@ interface Props {
                 {bowls.map((bowl) => (
                     <div
                     key={bowl.id}
-                    className="h-12 border-2 border-gray-600 rounded-xl flex items-center px-4"
+                    onClick={() => setBowl(bowl)} // ADDED THIS
+                    className={`h-12 border-2 rounded-xl flex items-center px-4 cursor-pointer transition-all ${
+                        selectedBowl?.id === bowl.id ? "border-[#A2D135]" : "border-gray-600"
+                    }`} // UPDATED className TO SHOW SELECTION
                     >
                         <img 
                         src={bowl.image_url}
                         alt={bowl.name}
-                        className="h-8 w-8 object-contain" />
-                        <span>{bowl.name}</span>
+                        className="h-8 w-8 object-contain mr-3" /> {/* Added margin right */}
+                        <span className={selectedBowl?.id === bowl.id ? "text-[#A2D135]" : ""}>
+                            {bowl.name}
+                        </span>
                     </div>
                 ))}
                 </div>

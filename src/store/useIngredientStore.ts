@@ -39,8 +39,13 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
       selectedBowl: null,
     })),
 
-  addIngredient: () => {},
-  removeIngredient: () => {},
-
-  
+  addIngredient: (item) => set((state) => ({
+    slots: { ...state.slots, [item.categoryId.toString()]: item }
+  })),
+  removeIngredient: (id) => set((state) => {
+    const newSlots = { ...state.slots };
+    const key = Object.keys(newSlots).find(k => newSlots[k]?.id === id);
+    if (key) delete newSlots[key];
+    return { slots: newSlots };
+  }),
 }));
