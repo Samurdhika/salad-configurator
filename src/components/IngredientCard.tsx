@@ -1,10 +1,12 @@
 import type { Ingredient } from "../types";
+import { useIngredientStore } from "../store/useIngredientStore";
 
 interface Props {
   ingredient: Ingredient;
 }
 
 export function IngredientCard({ ingredient }: Props) {
+  const addIngrediant = useIngredientStore((state) => state.addIngredient);
   const dietLabels: Record<string, string> = {
     G: "Gluten-free",
     L: "Lactose-free",
@@ -12,7 +14,9 @@ export function IngredientCard({ ingredient }: Props) {
   };
 
   return (
-    <div className="w-32 h-32 bg-white rounded-xl shadow-md p-3 flex flex-col justify-between hover:shadow-lg transition">
+    <div 
+    onClick={() => addIngrediant(ingredient)}
+    className="w-32 h-32 bg-white rounded-xl shadow-md p-3 flex flex-col justify-between hover:shadow-lg transition">
       
       
       <div className="text-sm font-semibold text-gray-800">
