@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import type { Category, Ingredient } from "../types";
 import { IngredientCard } from "./IngredientCard";
 
@@ -11,15 +11,26 @@ export function IngredientSection({
   categories,
   ingredients,
 }: IngredientSectionProps) {
+  const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredCategories = categories.filter((cat) => cat.id !== 6);
 
   const filteredIngredients = ingredients.filter(
-    (ing) => 
-      ing.categoryId !== 6 &&
-      ing.name.toLowerCase().includes(searchQuery.toLowerCase())
+    (ing) => ing.categoryId !== 6
   );
+
+  const visibleIngredients = filteredIngredients.filter((ing) => {
+    const matchesCategory =
+      activeCategory === "all" ||
+      String(ing.categoryId) === activeCategory;
+
+    const matchesSearch = ing.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg">
@@ -36,15 +47,33 @@ export function IngredientSection({
         <input
           type="text"
           placeholder="Etsi tuotteita"
-          value = {searchQuery}
+          value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="rounded-full px-6 py-3 text-black outline-none w-64 border-2 border-transparent focus:border-[#A2D135] mb-6"
         />
 
+        {/* ALL BUTTON */}
+        <div
+          onClick={() => setActiveCategory("all")}
+          className={`px-6 py-2 rounded-full font-bold cursor-pointer ${
+            activeCategory === "all"
+              ? "bg-white text-black"
+              : "bg-[#A2D135] text-black"
+          }`}
+        >
+          All
+        </div>
+
+        {/* CATEGORY BUTTONS */}
         {filteredCategories.map((category) => (
           <div
             key={category.id}
-            className="bg-[#A2D135] text-black font-bold px-6 py-2 rounded-full"
+            onClick={() => setActiveCategory(String(category.id))}
+            className={`px-6 py-2 rounded-full font-bold cursor-pointer ${
+              activeCategory === String(category.id)
+                ? "bg-white text-black"
+                : "bg-[#A2D135] text-black"
+            }`}
           >
             {category.name}
           </div>
@@ -52,7 +81,7 @@ export function IngredientSection({
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-        {filteredIngredients.map((ingredient) => (
+        {visibleIngredients.map((ingredient) => (
           <IngredientCard
             key={ingredient.id}
             ingredient={ingredient}
