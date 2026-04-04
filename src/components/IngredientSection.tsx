@@ -12,6 +12,7 @@ export function IngredientSection({
   ingredients,
 }: IngredientSectionProps) {
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredCategories = categories.filter((cat) => cat.id !== 6);
 
@@ -19,12 +20,17 @@ export function IngredientSection({
     (ing) => ing.categoryId !== 6
   );
 
-  const visibleIngredients =
-    activeCategory === "all"
-      ? filteredIngredients
-      : filteredIngredients.filter(
-          (ing) => String(ing.categoryId) === activeCategory
-        );
+  const visibleIngredients = filteredIngredients.filter((ing) => {
+    const matchesCategory =
+      activeCategory === "all" ||
+      String(ing.categoryId) === activeCategory;
+
+    const matchesSearch = ing.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg">
@@ -41,6 +47,8 @@ export function IngredientSection({
         <input
           type="text"
           placeholder="Etsi tuotteita"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="rounded-full px-6 py-3 text-black outline-none w-64 border-2 border-transparent focus:border-[#A2D135] mb-6"
         />
 
