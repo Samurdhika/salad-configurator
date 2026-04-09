@@ -9,23 +9,25 @@ type IngredientSectionProps = {
 
 export function IngredientSection({
   categories,
-  ingredients,
+  ingredients
 }: IngredientSectionProps) {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredCategories = categories.filter((cat) => cat.id !== 6);
+  const filteredCategories = categories;
 
-  const filteredIngredients = ingredients.filter(
-    (ing) => ing.categoryId !== 6
-  );
+  const filteredIngredients = ingredients;
 
-  const visibleIngredients = filteredIngredients.filter((ing) => {
+  console.log("Categories:", categories);
+  console.log("Ingredients:", ingredients);
+  console.log("Active:", activeCategory);
+
+  const visibleIngredients = filteredIngredients.filter((ingredients) => {
     const matchesCategory =
       activeCategory === "all" ||
-      String(ing.categoryId) === activeCategory;
+      Number(activeCategory) === ingredients.categoryId;
 
-    const matchesSearch = ing.name
+    const matchesSearch = ingredients.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
 
@@ -65,26 +67,26 @@ export function IngredientSection({
         </div>
 
         {/* CATEGORY BUTTONS */}
-        {filteredCategories.map((category) => (
+        {filteredCategories.map((categories) => (
           <div
-            key={category.id}
-            onClick={() => setActiveCategory(String(category.id))}
+            key={categories.id}
+            onClick={() => setActiveCategory(String(categories.id))}
             className={`px-6 py-2 rounded-full font-bold cursor-pointer ${
-              activeCategory === String(category.id)
+              activeCategory === String(categories.id)
                 ? "bg-white text-black"
                 : "bg-[#A2D135] text-black"
             }`}
           >
-            {category.name}
+            {categories.name}
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-        {visibleIngredients.map((ingredient) => (
+        {visibleIngredients.map((ingredients) => (
           <IngredientCard
-            key={ingredient.id}
-            ingredient={ingredient}
+            key={ingredients.id}
+            ingredient={ingredients}
           />
         ))}
       </div>
