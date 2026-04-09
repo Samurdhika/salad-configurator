@@ -38,7 +38,7 @@ export interface Recipe{
 
 }
 
-export interface Category {
+export interface Category extends Bowl{  //extended this
   id: number;
   name: string;
 }
@@ -46,4 +46,5 @@ export interface Category {
 export interface Ingredient extends BaseType {
   categoryId: number;
   diets: string[];
+  image_url: string
 }

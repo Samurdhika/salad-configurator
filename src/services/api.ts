@@ -10,7 +10,7 @@ export async function getBowls(){
 }
 
 export async function getCategories(){
-    const response = await fetch(`https://fresse-api.onrender.com/api/categories?type_id=[|2]`);
+    const response = await fetch(`https://fresse-api.onrender.com/api/categories?type_id=[1|2]`);
 
     if(!response.ok){
         throw new Error ("error");
@@ -20,7 +20,17 @@ export async function getCategories(){
 }
 
 export async function getIngredients(){
-    const response = await fetch(`https://fresse-api.onrender.com/api/baseingredients`);
+    const response = await fetch(`https://fresse-api.onrender.com/api/ingredients`);
+
+    if(!response.ok){
+        throw new Error("error");
+    }
+
+    return response.json();
+}
+
+export async function getBaseType(){
+    const response = await fetch(`https://fresse-api.onrender.com/api/baseingredients`)
 
     if(!response.ok){
         throw new Error("error");
