@@ -1,8 +1,11 @@
 import React from "react";
-import { useIngredientStore } from "../store/useIngredientStore"; // ADDED THIS
+import { useIngredientStore } from "../store/useIngredientStore"; 
+import { TrashIcon, ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 
 export function CenterBowl(){
-    const { baseType, setBaseType } = useIngredientStore(); // ADDED THIS
+    const { baseType, setBaseType,clearSelection, slots } = useIngredientStore(); 
+
+    const activeIngredients = Object.values(slots).filter(i => i !== null);
 
     return (
         <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0 ">
@@ -20,12 +23,28 @@ export function CenterBowl(){
                 Rahka
             </button>
             <div className="flex gap-2">
-                <button className="w-8 h-8 bg-gray-300 rounded-full gap-3 mb-6 items-center" />
-                <button className="w-8 h-8 bg-gray-300 rounded-full gap-3 mb-6 items-center" />
+                <button className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-600 transition"
+                    onClick = {clearSelection}
+                    >
+                    <TrashIcon className="w-5 h-5 text-black" />
+                </button>
+                <button className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-600 transition">
+                    <ArrowUturnLeftIcon className="w-5 h-5 text-black" />
+                </button>
                 <button className="w-8 h-8 bg-gray-300 rounded-full gap-3 mb-6 items-center" />
             </div>
         </div>
-        <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 flex items-center justify-center shadow-inner relative" />
+        <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 flex items-center justify-center shadow-inner relative">
+    {activeIngredients.map((ingredient, index) => (
+        <div key = {index} className="m-1">
+            <img 
+                src = {ingredient.image_url}
+                alt = {ingredient.name}
+                className="w-10 h-10 object-contain"
+            />
+        </div>
+    ))}
+</div>
 
         <div className="mt-6 flex items-center gap-80 text-gray-700">
             <span>100 g / 1,99 €</span>
