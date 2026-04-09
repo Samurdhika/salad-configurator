@@ -38,7 +38,7 @@ export interface Recipe{
 
 }
 
-export interface Category {
+export interface Category extends Bowl{  //extended this
   id: number;
   name: string;
 }
