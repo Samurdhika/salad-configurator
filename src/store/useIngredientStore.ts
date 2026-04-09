@@ -39,9 +39,27 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
       selectedBowl: null,
     })),
 
-  addIngredient: (item) => set((state) => ({
-    slots: { ...state.slots, [item.categoryId.toString()]: item }
-  })),
+  addIngredient: (item) => set((state) => {
+    if (item.categoryId === 6) {
+      return {
+        slots: { ...state.slots, "base": item }
+      };
+    }
+
+    const slotCount = state.selectedBowl?.slot_count || 6;
+
+    for (let i = 1; i <= slotCount; i++) {
+      const slotKey = `slot-${i}`;
+      if (!state.slots[slotKey]) {
+        return {
+          slots: { ...state.slots, [slotKey]: item }
+        };
+      }
+    }
+
+    return state;
+  }),
+
   removeIngredient: (id) => set((state) => {
     const newSlots = { ...state.slots };
     const key = Object.keys(newSlots).find(k => newSlots[k]?.id === id);
