@@ -28,3 +28,13 @@ export async function getIngredients(){
 
     return response.json();
 }
+
+export async function getBaseType(){
+    const response = await fetch(`https://fresse-api.onrender.com/api/baseingredients`)
+
+    if(!response.ok){
+        throw new Error("error");
+    }
+
+    return response.json();
+}
