@@ -71,7 +71,7 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
       );
 
       if (key) {
-        newSlots[key] = null; 
+        delete newSlots[key];
       }
 
       return { slots: newSlots };
