@@ -39,31 +39,41 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
       selectedBowl: null,
     })),
 
-  addIngredient: (item) => set((state) => {
-    if (item.categoryId === 6) {
-      return {
-        slots: { ...state.slots, "base": item }
-      };
-    }
-
-    const slotCount = state.selectedBowl?.slot_count || 0;
-
-    for (let i = 1; i <= slotCount; i++) {
-      const slotKey = `slot-${i}`;
-      if (!state.slots[slotKey]) {
+  addIngredient: (item) =>
+    set((state) => {
+      
+      if (item.categoryId === 6) {
         return {
-          slots: { ...state.slots, [slotKey]: item }
+          slots: { ...state.slots, base: item },
         };
       }
-    }
 
-    return state;
-  }),
+      const slotCount = state.selectedBowl?.slot_count || 0;
 
-  removeIngredient: (id) => set((state) => {
-    const newSlots = { ...state.slots };
-    const key = Object.keys(newSlots).find(k => newSlots[k]?.id === id);
-    if (key) delete newSlots[key];
-    return { slots: newSlots };
-  }),
+      for (let i = 1; i <= slotCount; i++) {
+        const slotKey = `slot-${i}`;
+        if (!state.slots[slotKey]) {
+          return {
+            slots: { ...state.slots, [slotKey]: item },
+          };
+        }
+      }
+
+      return state;
+    }),
+
+  removeIngredient: (id) =>
+    set((state) => {
+      const newSlots = { ...state.slots };
+
+      const key = Object.keys(newSlots).find(
+        (k) => newSlots[k]?.id === id
+      );
+
+      if (key) {
+        newSlots[key] = null; 
+      }
+
+      return { slots: newSlots };
+    }),
 }));
