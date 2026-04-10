@@ -55,7 +55,7 @@ export function Configurator(){
   }, []);
 
     const filteredBowls = bowls.filter(bowl => bowl.base_type_id === baseType);
-    const filteredCategories = category.filter(cat => cat.base_type_id === baseType);
+    const filteredCategories = category.filter(cat => cat.id);
 
     return (
         <div className="min-h-screen bg-white p-8 flex flex-col gap-8">

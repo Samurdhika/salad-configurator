@@ -20,6 +20,11 @@ export function IngredientCard({ ingredient }: Props) {
       
       
       <div className="text-sm font-semibold text-gray-800">
+        <img
+        src={ingredient.image_url}
+        alt={ingredient.name}
+        className="w-24 h-24 object-cover rounded-full mb-2"
+      />
         {ingredient.name}
       </div>
 

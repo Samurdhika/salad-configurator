@@ -1,31 +1,54 @@
 import React, { useState } from "react";
 import type { Category, Ingredient } from "../types";
 import { IngredientCard } from "./IngredientCard";
+import { useIngredientStore } from "../store/useIngredientStore";
 
 type IngredientSectionProps = {
   categories: Category[];
   ingredients: Ingredient[];
 };
 
+
 export function IngredientSection({
   categories,
-  ingredients,
+  ingredients
 }: IngredientSectionProps) {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredCategories = categories.filter((cat) => cat.id !== 6);
+  const { baseType } = useIngredientStore();
 
-  const filteredIngredients = ingredients.filter(
-    (ing) => ing.categoryId !== 6
-  );
+  console.log("Categories:", categories); console.log("Ingredients:", ingredients); console.log("Active:", activeCategory);
 
-  const visibleIngredients = filteredIngredients.filter((ing) => {
+ 
+  const salaattiCategoryIds = [5,6,7,8,9];
+  const rahkaCategoryIds = [1,2,3,4];      
+
+  
+  const filteredCategories = categories.filter((category) => {
+    if (baseType === 1) return salaattiCategoryIds.includes(category.id);
+    if (baseType === 2) return rahkaCategoryIds.includes(category.id);
+    return true;
+  });
+
+  
+  const filteredIngredients = ingredients.filter((ingredient) => {
+    if (baseType === 1) {
+      return salaattiCategoryIds.includes(ingredient.categoryId);
+    }
+    if (baseType === 2) {
+      return rahkaCategoryIds.includes(ingredient.categoryId);
+    }
+    return true;
+  });
+
+ 
+  const visibleIngredients = filteredIngredients.filter((ingredient) => {
     const matchesCategory =
       activeCategory === "all" ||
-      String(ing.categoryId) === activeCategory;
+      Number(activeCategory) === ingredient.categoryId;
 
-    const matchesSearch = ing.name
+    const matchesSearch = ingredient.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
 
@@ -34,25 +57,29 @@ export function IngredientSection({
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg">
+      
+      
       <div className="flex items-center gap-4 mb-6 justify-center">
-        <div className="bg-white text-black font-bold rounded-full w-8 h-8 flex items-center justify-center mb-4 shrink-0">
+        <div className="bg-white text-black font-bold rounded-full w-8 h-8 flex items-center justify-center">
           3.
         </div>
-        <h2 className="text-lg font-semibold mb-6">
+        <h2 className="text-lg font-semibold">
           Lisää raaka-aineet
         </h2>
       </div>
 
+     
       <div className="flex gap-4 items-center overflow-x-auto justify-center">
+        
         <input
           type="text"
           placeholder="Etsi tuotteita"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="rounded-full px-6 py-3 text-black outline-none w-64 border-2 border-transparent focus:border-[#A2D135] mb-6"
+          className="rounded-full px-6 py-3 text-black w-64"
         />
 
-        {/* ALL BUTTON */}
+     
         <div
           onClick={() => setActiveCategory("all")}
           className={`px-6 py-2 rounded-full font-bold cursor-pointer ${
@@ -64,7 +91,7 @@ export function IngredientSection({
           All
         </div>
 
-        {/* CATEGORY BUTTONS */}
+        
         {filteredCategories.map((category) => (
           <div
             key={category.id}
@@ -80,6 +107,7 @@ export function IngredientSection({
         ))}
       </div>
 
+  
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
         {visibleIngredients.map((ingredient) => (
           <IngredientCard
