@@ -22,8 +22,7 @@ interface Props {
                     key={bowl.id}
                     onClick={() => setBowl(bowl)} // ADDED THIS
                     className={`h-12 border-2 rounded-xl flex items-center px-4 cursor-pointer transition-all ${
-                        selectedBowl?.id === bowl.id ? "border-[#A2D135]" : "border-gray-600"
-                    }`} // UPDATED className TO SHOW SELECTION
+                        selectedBowl?.id === bowl.id ? "border-[#A2D135]" : "border-gray-600"}`} // UPDATED className TO SHOW SELECTION
                     >
                         <img 
                         src={bowl.image_url}
