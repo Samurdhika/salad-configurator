@@ -4,6 +4,7 @@ import { TrashIcon, ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 
 export function CenterBowl(){
     const { baseType, setBaseType,clearSelection, slots } = useIngredientStore(); 
+    const selectedBowl = useIngredientStore((state) => state.selectedBowl); 
 
     const activeIngredients = Object.values(slots).filter(i => i !== null);
 
@@ -48,7 +49,7 @@ export function CenterBowl(){
 
         <div className="mt-6 flex items-center gap-80 text-gray-700">
             <span>100 g / 1,99 €</span>
-            <span>500 ml</span>
+            <span>{selectedBowl ? selectedBowl.volume : 0} ml</span>
         </div>
     </div>
     );
