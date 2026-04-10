@@ -15,7 +15,7 @@ export interface BaseType {
 }
 
 export interface Bowl extends BaseType {
-  base_type_id?: number;
+  base_type_id: number;
   volume?: number;
   slot_count: number;
   shape: 'round' | 'square';
@@ -46,4 +46,5 @@ export interface Category {
 export interface Ingredient extends BaseType {
   categoryId: number;
   diets: string[];
+  image_url: string
 }
