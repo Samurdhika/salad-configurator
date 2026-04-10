@@ -7,14 +7,13 @@ export default function Header() {
 
   return (
     <header className="relative w-full h-32">
-      {/* Background with rounded bottom corners */}
+
       <div className="absolute inset-0 overflow-hidden rounded-b-3xl">
         <div className="bg-zinc-800 absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
       </div>
 
       <div className="relative z-10 flex items-center justify-between h-full px-8 text-white">
         
-        {/* Fixed Logo Implementation */}
         <div className="flex items-start pt-4">
           <Link to="/" className="w-24 h-24 flex items-center justify-center -mt-2 overflow-hidden">
             <img 
@@ -25,12 +24,10 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Title */}
         <h1 className="text-3xl font-black tracking-widest mt-6">
           BOWL-LASKURI
         </h1>
-
-        {/* Menu Section */}
+ 
         <div className="relative">
           {!isMenuOpen && (
             <button onClick={() => setIsMenuOpen(true)} className="p-2">
@@ -69,7 +66,6 @@ export default function Header() {
   );
 }
 
-// Simple SVG Icon Components
 const UserIcon = () => (
   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
