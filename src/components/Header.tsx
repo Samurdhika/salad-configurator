@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import fresseLogo from '../assets/fresse-logo.png'; 
+import fresseLogo from '../assets/fresse-logo.png';
+import LoginModal from './LoginModal'; 
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   return (
     <header className="relative w-full h-32">
@@ -41,6 +43,7 @@ export default function Header() {
 
           {isMenuOpen && (
             <div className="bg-[#A2D135] text-black rounded-[3rem] pt-6 pb-12 px-6 flex flex-col items-center gap-8 min-w-[240px] shadow-2xl absolute -top-4 -right-4 z-50">
+              
               <button onClick={() => setIsMenuOpen(false)} className="flex flex-row gap-1 mb-2">
                 <div className="w-1 h-8 bg-white rounded-full"></div>
                 <div className="w-1 h-8 bg-white rounded-full"></div>
@@ -48,20 +51,38 @@ export default function Header() {
               </button>
 
               <div className="flex flex-col gap-8 w-full px-4">
-                <button className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity">
+                
+                {/* LOGIN BUTTON */}
+                <button
+                  onClick={() => {
+                    setIsLoginOpen(true);
+                    setIsMenuOpen(false);
+                  }}
+                  className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity"
+                >
                   <UserIcon /> Kirjaudu sisään
                 </button>
+
                 <button className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity">
                   <BookmarkIcon /> <Link to="/community">Tallennetut reseptit</Link>
                 </button>
+
                 <button className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity">
                   <HelpIcon /> Ohjeet ja tuki
                 </button>
+
               </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* LOGIN MODAL */}
+      <LoginModal
+        isOpen={isLoginOpen}
+        onClose={() => setIsLoginOpen(false)}
+      />
+
     </header>
   );
 }
