@@ -1,6 +1,6 @@
 import React from "react";
 import { useIngredientStore } from "../store/useIngredientStore"; 
-import { TrashIcon, ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+import { TrashIcon, ArrowUturnLeftIcon, ArchiveBoxIcon } from "@heroicons/react/24/solid";
 
 export function CenterBowl(){
     const { baseType, setBaseType,clearSelection, slots } = useIngredientStore(); 
@@ -25,14 +25,25 @@ export function CenterBowl(){
             </button>
             <div className="flex gap-2">
                 <button className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-600 transition"
-                    onClick = {clearSelection}
+                    onClick = {() => {
+                        const confirmed = window.confirm('Are you sure you want to empty the bowl?');
+                        if (confirmed) {
+                            clearSelection();
+                        }
+                    }}
                     >
                     <TrashIcon className="w-5 h-5 text-black" />
                 </button>
-                <button className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-600 transition">
+                <button className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-600 transition"
+                    onClick={() => alert('Feature coming soon!')}
+                >
                     <ArrowUturnLeftIcon className="w-5 h-5 text-black" />
                 </button>
-                <button className="w-8 h-8 bg-gray-300 rounded-full gap-3 mb-6 items-center" />
+                <button className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-600 transition"
+                    onClick={() => alert('Feature coming soon!')}
+                >
+                    <ArchiveBoxIcon className="w-5 h-5 text-black" />
+                </button>
             </div>
         </div>
         <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 flex items-center justify-center shadow-inner relative">
