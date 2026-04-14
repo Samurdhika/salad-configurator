@@ -10,6 +10,10 @@ export function SummaryBar() {
     (item): item is Ingredient => item !== null
   );
 
+  const totalWeight = activeIngredients.reduce((sum, item: any) => {
+    return sum + (item.weight_grams || 0);
+  }, 0);
+
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full flex flex-col md:flex-row gap-8 shadow-xl">
 
@@ -48,7 +52,7 @@ export function SummaryBar() {
 
       <div className="flex-1 grid grid-cols-2 gap-6 place-items-center">
         
-        <Stat value={`${activeIngredients.length} g`} label="Arvioitu paino" />
+        <Stat value={`${totalWeight} g`} label="Arvioitu paino" />
         
         <Stat value="0,00 €" label="Arvioitu hinta" />
         <Stat value="0,00 €" label="MH" />
