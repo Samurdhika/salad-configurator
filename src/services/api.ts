@@ -53,3 +53,27 @@ export async function getPrices(token: string) {
 
     return response.json();
 }
+
+const API_URL = "https://fresse-api.onrender.com/api";
+
+export async function login(email: string, password: string) {
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: "POST", 
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+  email,
+  password,
+   })
+  });
+
+  const data = await response.json();
+  console.log("API RESPONSE:", data); 
+
+  if (!response.ok) {
+    throw new Error(data.message || "Login failed");
+  }
+
+  return data;
+}
