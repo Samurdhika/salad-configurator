@@ -38,3 +38,18 @@ export async function getBaseType(){
 
     return response.json();
 }
+
+export async function getPrices(token: string) {
+    const response = await fetch(`https://fresse-api.onrender.com/api/prices`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch prices");
+    }
+
+    return response.json();
+}
