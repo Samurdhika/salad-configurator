@@ -1,17 +1,22 @@
 import { Link } from "react-router-dom";
 import { useIngredientStore } from "../store/useIngredientStore";
 import type { Ingredient } from "../types";
-import { calculateTotalWeight } from "../utils/calculations.ts";
+import { calculateTotalWeight, calculateTotalPrice } from "../utils/calculations.ts"; // Added calculateTotalPrice
+import { usePriceStore } from "../store/usePriceStore"; // Added usePriceStore
 
 export function SummaryBar() {
   const slots = useIngredientStore((state) => state.slots);
   const removeIngredient = useIngredientStore((state) => state.removeIngredient);
+  const prices = usePriceStore((state) => state.prices); // Access the price list
 
   const activeIngredients = Object.values(slots).filter(
     (item): item is Ingredient => item !== null
   );
 
   const totalWeight = calculateTotalWeight(activeIngredients);
+  
+  // Calculate the total sum using the dynamic price list
+  const totalPrice = calculateTotalPrice(activeIngredients, prices);
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full flex flex-col md:flex-row gap-8 shadow-xl">
@@ -53,7 +58,9 @@ export function SummaryBar() {
         
         <Stat value={`${totalWeight} g`} label="Arvioitu paino" />
         
-        <Stat value="0,00 €" label="Arvioitu hinta" />
+        {/* Updated: Now displaying the calculated total price */}
+        <Stat value={`${totalPrice.toFixed(2)} €`} label="Arvioitu hinta" />
+        
         <Stat value="0,00 €" label="MH" />
         <Stat value="0 %" label="Kate" />
 
