@@ -23,7 +23,7 @@ export function CenterBowl(){
             >
                 Rahka
             </button>
-            <div className="flex gap-2">
+            <div className="flex gap-3 mb-6 items-center">
                 <button className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center hover:bg-gray-600 transition"
                     onClick = {() => {
                         const confirmed = window.confirm('Are you sure you want to empty the bowl?');
