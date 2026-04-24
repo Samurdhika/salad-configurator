@@ -16,13 +16,12 @@ interface Props {
                 1.
             </div>
             <h2 className="text-lg font-semibold mb-6">Valitse rasia</h2>
-            <div className="w-full flex flex-col gap-4">
+            <div className="w-full flex flex-col gap-4 min-h-[300px]">
                 {bowls.map((bowl) => (
                     <div
                     key={bowl.id}
                     onClick={() => setBowl(bowl)} 
-                    className={`h-12 border-2 rounded-xl flex items-center px-4 cursor-pointer transition-all ${
-                        selectedBowl?.id === bowl.id ? "border-[#A2D135]" : "border-gray-600"}`} // UPDATED className TO SHOW SELECTION
+                    className={`h-12 border-2 border-gray-600 rounded-xl flex items-center px-4 hover:border-[#A2D135] cursor-pointer transition-colors`} // UPDATED className TO SHOW SELECTION
                     >
                         <img 
                         src={bowl.image_url}
