@@ -1,3 +1,6 @@
+import oivaLogo from '../assets/oiva.png';
+import FreshLogo from '../assets/fresh.png';
+
 export function Footer() {
   return (
     <footer className="bg-[#A2D135] text-white w-full px-10 py-5 mt-12">
@@ -5,8 +8,12 @@ export function Footer() {
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 items-start">
         
         <div className="flex items-center justify-center md:justify-start">
-          <div className="border-2 border-white rounded-full px-6 py-4 text-2xl italic">
-            Fresh
+          <div className="w-24 h-24 flex items-center justify-center -mt-2 overflow-hidden">
+            <img 
+              src={FreshLogo} 
+              alt="Fresh Logo" 
+              className="w-full h-full object-contain" 
+            />
           </div>
         </div>
 
@@ -42,8 +49,12 @@ export function Footer() {
             Fresh Pro verkkokauppa ammattilaisille →
           </p>
 
-          <div className="bg-white w-24 h-24 flex items-center justify-center text-black font-bold">
-            Oiva
+          <div className="w-24 h-24 flex flex-col items-center md:items-end gap-4">
+            <img 
+              src={oivaLogo} 
+              alt="Oiva Logo" 
+              className="w-full h-full object-contain" 
+            />
           </div>
         </div>
 
