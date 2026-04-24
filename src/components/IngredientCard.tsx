@@ -24,20 +24,30 @@ export function IngredientCard({ ingredient }: Props) {
   return (
     <div 
     onClick={() => addIngrediant(ingredient)}
-    className="w-32 h-32 bg-white rounded-xl shadow-md p-3 flex flex-col justify-between hover:shadow-lg transition">
+    className="w-25 h-20 bg-white rounded-xl shadow-md p-3 flex flex-col justify-between hover:shadow-lg transition">
       
       
-      <div className="text-sm font-semibold text-gray-800">
-        <img
-        src={ingredient.image_url}
-        alt={ingredient.name}
-        className="w-24 h-24 object-cover rounded-full mb-2"
-      />
-        {ingredient.name}
-      </div>
+      <div className="flex items-center gap-3">
+  <img
+    src={ingredient.image_url}
+    alt={ingredient.name}
+    className="w-16 h-16 object-cover rounded-md"
+  />
 
-      
-      {ingredient.diets && ingredient.diets.length > 0 && (
+  <div className="flex flex-col justify-center">
+    <span className="text-sm font-semibold text-gray-800">
+      {ingredient.name}
+    </span>
+
+    <span className="text-xs text-gray-600">
+      {!token
+        ? "Login to see price"
+        : priceItem
+        ? `+ ${priceItem.price.toFixed(2)} €`
+        : null}
+    </span>
+
+    {ingredient.diets && ingredient.diets.length > 0 && (
         <div className="flex gap-1 flex-wrap">
           {ingredient.diets.map((diet, index) => (
             <span
@@ -50,11 +60,12 @@ export function IngredientCard({ ingredient }: Props) {
         </div>
       )}
 
-      <div className="text-xs text-gray-600">
-        {!token ? "Login to see price"
-        : priceItem ? `+ ${priceItem.price.toFixed(2)} €` : null
-        }
-      </div>
+  </div>
+</div>
+
+      
+      
+      
     </div>
   );
 }
