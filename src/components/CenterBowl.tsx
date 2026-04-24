@@ -3,9 +3,7 @@ import { useIngredientStore } from "../store/useIngredientStore";
 import { TrashIcon, ArrowUturnLeftIcon, ArchiveBoxIcon } from "@heroicons/react/24/solid";
 
 export function CenterBowl(){
-    const { baseType, setBaseType,clearSelection, slots } = useIngredientStore(); 
-    const selectedBowl = useIngredientStore((state) => state.selectedBowl); 
-
+    const { baseType, setBaseType,clearSelection, slots, selectedBowl } = useIngredientStore(); 
     const activeIngredients = Object.values(slots).filter(i => i !== null);
 
     return (
@@ -46,17 +44,46 @@ export function CenterBowl(){
                 </button>
             </div>
         </div>
-        <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 flex items-center justify-center shadow-inner relative">
-    {activeIngredients.map((ingredient, index) => (
-        <div key = {index} className="m-1">
-            <img 
-                src = {ingredient.image_url}
-                alt = {ingredient.name}
-                className="w-10 h-10 object-contain"
-            />
+
+      <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 shadow-inner relative overflow-hidden">
+        {slots.base && (
+          <img
+            src={slots.base.image_url}
+            alt={slots.base.name}
+            className="absolute inset-0 w-full h-full object-cover z-10"
+          />
+        )}
+
+        {selectedBowl?.slot_count === 6 && (
+          <img
+            src="https://www.cc.puv.fi/~asa/fresh/images/jakaja_6_lohkoa.png"
+            alt="6 compartments"
+            className="absolute inset-0 w-full h-full object-contain z-20 pointer-events-none"
+          />
+        )}
+
+        {selectedBowl?.slot_count === 4 && (
+          <img
+            src="https://www.cc.puv.fi/~asa/fresh/images/jakaja_4_lohkoa.png"
+            alt="4 compartments"
+            className="absolute inset-0 w-full h-full object-contain z-20 pointer-events-none"
+          />
+        )}
+
+        <div className="relative z-30 flex flex-wrap items-center justify-center w-full h-full p-6">
+          {activeIngredients
+            .filter((item) => item.categoryId !== 6)
+            .map((ingredient, index) => (
+              <div key={index} className="m-1">
+                <img
+                  src={ingredient.image_url}
+                  alt={ingredient.name}
+                  className="w-10 h-10 object-contain"
+                />
+              </div>
+            ))}
         </div>
-    ))}
-</div>
+      </div>
 
         <div className="mt-6 flex items-center gap-80 text-gray-700">
             <span>100 g / 1,99 €</span>
