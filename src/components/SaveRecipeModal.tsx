@@ -12,10 +12,13 @@ interface Props {
 export function SaveRecipeModal({ isOpen, onClose }: Props) {
   const [recipeName, setRecipeName] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const token = useAuthStore((state) => state.token);
   const slots = useIngredientStore((state) => state.slots);
   const selectedBowl = useIngredientStore((state) => state.selectedBowl);
+  const clearSelection = useIngredientStore((state) => state.clearSelection);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +36,9 @@ export function SaveRecipeModal({ isOpen, onClose }: Props) {
       is_public: isPublic,
     });
 
-    onClose();
+    setSuccessMessage("Recipe saved!");
+
+    clearSelection();
   };
 
   return (
@@ -57,6 +62,9 @@ export function SaveRecipeModal({ isOpen, onClose }: Props) {
         />
 
         <button type="submit">Save</button>
+         {successMessage && (
+          <p style={{ color: "green" }}>{successMessage}</p>
+        )}
       </form>
     </Modal>
   );
