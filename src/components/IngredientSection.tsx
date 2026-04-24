@@ -13,7 +13,7 @@ export function IngredientSection({
   categories,
   ingredients
 }: IngredientSectionProps) {
-  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [activeCategory, setActiveCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
   const { baseType } = useIngredientStore();
@@ -79,19 +79,6 @@ export function IngredientSection({
           className="rounded-full px-6 py-3 text-black w-64"
         />
 
-     
-        <div
-          onClick={() => setActiveCategory("all")}
-          className={`px-6 py-2 rounded-full font-bold cursor-pointer ${
-            activeCategory === "all"
-              ? "bg-white text-black"
-              : "bg-[#A2D135] text-black"
-          }`}
-        >
-          All
-        </div>
-
-        
         {filteredCategories.map((category) => (
           <div
             key={category.id}
