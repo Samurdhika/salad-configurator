@@ -3,16 +3,15 @@ import type { Ingredient, Bowl } from "../types";
 
 interface IngredientStore {
   slots: Record<string, Ingredient | null>;
-
   baseType: number;
   selectedBowl: Bowl | null;
 
   setBaseType: (id: number) => void;
   setBowl: (bowl: Bowl) => void;
   clearSelection: () => void;
-
   addIngredient: (item: Ingredient) => void;
   removeIngredient: (id: number) => void;
+  clearSlot: (slotId: string) => void;
 }
 
 export const useIngredientStore = create<IngredientStore>((set) => ({
@@ -28,20 +27,30 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
     })),
 
   setBowl: (bowl) =>
-    set(() => ({
-      selectedBowl: bowl,
-      slots: {},
-    })),
+    set(() => {
+      const initialSlots: Record<string, Ingredient | null> = {};
+      for (let i = 1; i <= bowl.slot_count; i++) {
+        initialSlots[`slot-${i}`] = null;
+      }
+      return {
+        selectedBowl: bowl,
+        slots: initialSlots,
+      };
+    }),
 
   clearSelection: () =>
-    set(() => ({
-      slots: {},
-      selectedBowl: null,
-    })),
+    set((state) => {
+      const resetSlots: Record<string, Ingredient | null> = {};
+      if (state.selectedBowl) {
+        for (let i = 1; i <= state.selectedBowl.slot_count; i++) {
+          resetSlots[`slot-${i}`] = null;
+        }
+      }
+      return { slots: resetSlots, selectedBowl: state.selectedBowl };
+    }),
 
   addIngredient: (item) =>
     set((state) => {
-      
       if (item.categoryId === 6) {
         return {
           slots: { ...state.slots, base: item },
@@ -62,16 +71,20 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
       return state;
     }),
 
+  clearSlot: (slotId) =>
+    set((state) => ({
+      slots: { ...state.slots, [slotId]: null },
+    })),
+
   removeIngredient: (id) =>
     set((state) => {
       const newSlots = { ...state.slots };
-
       const key = Object.keys(newSlots).find(
         (k) => newSlots[k]?.id === id
       );
 
       if (key) {
-        delete newSlots[key];
+        newSlots[key] = null;
       }
 
       return { slots: newSlots };
