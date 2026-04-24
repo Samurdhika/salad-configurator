@@ -1,43 +1,51 @@
 import { Link } from "react-router-dom";
 import { useIngredientStore } from "../store/useIngredientStore";
 import type { Ingredient } from "../types";
-import { calculateTotalWeight, calculateTotalPrice } from "../utils/calculations.ts"; // Added calculateTotalPrice
-import { usePriceStore } from "../store/usePriceStore"; // Added usePriceStore
+import {
+  calculateTotalWeight,
+  calculateTotalPrice,
+} from "../utils/calculations";
+import { usePriceStore } from "../store/usePriceStore";
 
 export function SummaryBar() {
   const slots = useIngredientStore((state) => state.slots);
-  const removeIngredient = useIngredientStore((state) => state.removeIngredient);
-  const prices = usePriceStore((state) => state.prices); // Access the price list
+  const clearSlot = useIngredientStore((state) => state.clearSlot);
+  const prices = usePriceStore((state) => state.prices);
 
-  const activeIngredients = Object.values(slots).filter(
-    (item): item is Ingredient => item !== null
-  );
+  
+  const entries = Object.entries(slots) as [string, Ingredient | null][];
+
+  const activeEntries = entries.filter(
+    ([_, item]) => item !== null
+  ) as [string, Ingredient][];
+
+  const activeIngredients = activeEntries.map(([_, item]) => item);
 
   const totalWeight = calculateTotalWeight(activeIngredients);
-  
-  // Calculate the total sum using the dynamic price list
   const totalPrice = calculateTotalPrice(activeIngredients, prices);
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full flex flex-col md:flex-row gap-8 shadow-xl">
 
+     
       <div className="flex-1 bg-[#4a4a4a] rounded-3xl p-6 flex flex-col justify-between min-h-[180px]">
         
         <div>
-          <p className="text-lg font-semibold mb-2">
-            Valitut ainesosat ({activeIngredients.length})
+          <p className="text-lg font-semibold mb-3">
+            Valitut ainesosat ({activeEntries.length})
           </p>
 
           <div className="flex flex-wrap gap-2">
-            {activeIngredients.map((item) => (
+            {activeEntries.map(([slotKey, item]) => (
               <div
-                key={item.id}
+                key={slotKey}
                 className="flex items-center gap-2 bg-zinc-700 px-3 py-1 rounded-full text-sm"
               >
                 <span>{item.name}</span>
 
+                
                 <button
-                  onClick={() => removeIngredient(item.id)}
+                  onClick={() => clearSlot(slotKey)}
                   className="text-red-400 hover:text-red-600 font-bold"
                 >
                   ✕
@@ -54,20 +62,20 @@ export function SummaryBar() {
         </Link>
       </div>
 
+      
       <div className="flex-1 grid grid-cols-2 gap-6 place-items-center">
         
         <Stat value={`${totalWeight} g`} label="Arvioitu paino" />
         
-        {/* Updated: Now displaying the calculated total price */}
         <Stat value={`${totalPrice.toFixed(2)} €`} label="Arvioitu hinta" />
         
         <Stat value="0,00 €" label="MH" />
         <Stat value="0 %" label="Kate" />
-
       </div>
     </div>
   );
 }
+
 
 function Stat({ value, label }: { value: string; label: string }) {
   return (
