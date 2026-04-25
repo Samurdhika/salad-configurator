@@ -9,6 +9,8 @@ import { Footer } from '../components/Footer';
 import type { Bowl, Ingredient, Category, BaseType } from '../types';
 import { getBowls, getCategories, getIngredients, getBaseType } from '../services/api';
 import { useIngredientStore } from '../store/useIngredientStore';
+import { usePriceStore } from '../store/usePriceStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 export function Configurator() {
   const [bowls, setBowls] = useState<Bowl[]>([]);
@@ -17,6 +19,8 @@ export function Configurator() {
   const [baseTypes, setBaseTypes] = useState<BaseType[]>([]);
 
   const baseType = useIngredientStore((state) => state.baseType);
+  const fetchPrices = usePriceStore((state) => state.fetchPrices);
+  const token = useAuthStore((state) => state.token);
 
   useEffect(() => {
     async function fetchData() {
@@ -27,7 +31,6 @@ export function Configurator() {
           getIngredients(),
           getBaseType(),
         ]);
-
         setBowls(bowlsData);
         setCategories(categoriesData);
         setIngredients(ingredientsData);
@@ -36,9 +39,14 @@ export function Configurator() {
         console.error("Failed to fetch data:", error);
       }
     }
-
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      fetchPrices(token);
+    }
+  }, [token, fetchPrices]);
 
   const filteredBowls = bowls.filter(bowl => bowl.base_type_id === baseType);
   const filteredCategories = categories.filter(cat => cat.id);
@@ -51,11 +59,7 @@ export function Configurator() {
         <CenterBowl />
         <BaseSelection BaseType={baseTypes} />
       </div>
-
-      <IngredientSection
-        categories={filteredCategories}
-        ingredients={ingredients}
-      />
+      <IngredientSection categories={filteredCategories} ingredients={ingredients} />
       <SummaryBar />
       <Footer />
     </div>
