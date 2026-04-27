@@ -13,7 +13,6 @@ export function CenterBowl() {
     selectedBowl
   } = useIngredientStore();
 
-  
   const [isSaveOpen, setIsSaveOpen] = useState(false);
 
   const wedgePositions6: Record<string, string> = {
@@ -26,10 +25,10 @@ export function CenterBowl() {
   };
 
   const wedgePositions4: Record<string, string> = {
-    "slot-1": "top-5 left-3",
-    "slot-2": "top-6 right-5",
-    "slot-3": "bottom-4 right-3",
-    "slot-4": "bottom-5 left-2",
+    "slot-1": "top-10 left-20 -translate-x-1/2",
+    "slot-2": "top-10 right-3 -translate-x-1/2",
+    "slot-3": "bottom-16 right-8",
+    "slot-4": "bottom-16 left-8",
   };
 
   const rotationDegrees: Record<string, string> = {
@@ -41,24 +40,18 @@ export function CenterBowl() {
     "slot-6": "rotate-[300deg]",
   };
 
-  const rotationDegrees4: Record<string, string> = {
-    "slot-1": "rotate-[315deg]",
-    "slot-2": "rotate-[45deg]",
-    "slot-3": "rotate-[135deg]",
-    "slot-4": "rotate-[225deg]",
-  };
-
   const slotCount = selectedBowl?.slot_count ?? 6;
   const wedgePositions = slotCount === 4 ? wedgePositions4 : wedgePositions6;
 
-  const activeRotations = slotCount === 4 ? rotationDegrees4 : rotationDegrees;
+  const totalWeight = Object.values(slots).reduce((sum, item) => sum + (item ? 100 : 0), 0);
+  const totalPrice = (totalWeight / 100) * 1.99;
 
   const renderedIngredients = Object.entries(slots).map(
     ([slotKey, ingredient]) => {
       if (!ingredient || slotKey === "base") return null;
 
       return (
-        <div key={slotKey} className={`absolute z-30 flex flex-col items-center justify-center ${wedgePositions[slotKey]} ${activeRotations[slotKey] || ""}`}>
+        <div key={slotKey} className={`absolute z-30 flex flex-col items-center justify-center ${wedgePositions[slotKey]} ${rotationDegrees[slotKey] || ""}`}>
           <img
             src={ingredient.wedge_image_url}
             alt={ingredient.name}
@@ -79,7 +72,6 @@ export function CenterBowl() {
   return (
     <>
       <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0">
-
         
         <div className="flex gap-3 mb-6 items-center">
           <button
@@ -97,7 +89,6 @@ export function CenterBowl() {
           </button>
 
           <div className="flex gap-3 items-center">
-            
             <button
               className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center"
               onClick={() => {
@@ -108,7 +99,6 @@ export function CenterBowl() {
               <TrashIcon className="w-5 h-5 text-black" />
             </button>
 
-           
             <button
               className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center"
               onClick={() => alert("Feature coming soon!")}
@@ -116,7 +106,6 @@ export function CenterBowl() {
               <ArrowUturnLeftIcon className="w-5 h-5 text-black" />
             </button>
 
-            
             <button
               className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center"
               onClick={() => setIsSaveOpen(true)}
@@ -126,7 +115,6 @@ export function CenterBowl() {
           </div>
         </div>
 
-        
         <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 shadow-inner relative overflow-hidden flex items-center justify-center">
 
           {selectedBowl && (
@@ -138,16 +126,16 @@ export function CenterBowl() {
           )}
         
           {slots.base && (
-       <div className="absolute inset-0 flex items-center justify-center z-10">
-       <div className="w-[85%] h-[85%] rounded-full overflow-hidden">
-       <img
-        src={slots.base.image_url}
-        alt={slots.base.name}
-        className="w-full h-full object-cover opacity-90"
-      />
-    </div>
-  </div>
-)}
+            <div className="absolute inset-0 flex items-center justify-center z-10">
+              <div className="w-[85%] h-[85%] rounded-full overflow-hidden">
+                <img
+                  src={slots.base.image_url}
+                  alt={slots.base.name}
+                  className="w-full h-full object-cover opacity-90"
+                />
+              </div>
+            </div>
+          )}
 
           {selectedBowl?.slot_count === 6 && (
             <img
@@ -168,14 +156,12 @@ export function CenterBowl() {
           </div>
         </div>
 
-       
         <div className="mt-6 flex items-center gap-80 text-gray-700">
-          <span>100 g / 1,99 €</span>
+          <span>{totalWeight} g / {totalPrice.toFixed(2)} €</span>
           <span>{selectedBowl ? selectedBowl.volume : 0} ml</span>
         </div>
       </div>
 
-      
       <SaveRecipeModal
         isOpen={isSaveOpen}
         onClose={() => setIsSaveOpen(false)}
