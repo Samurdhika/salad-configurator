@@ -8,6 +8,8 @@ interface Props {
 
 export function BaseSelection({ BaseType }: Props) {
   const baseType = useIngredientStore((state) => state.baseType);
+
+  const showBases = baseType === 1;
   const setBaseType = useIngredientStore((state) => state.setBaseType);
 
   return (
@@ -16,6 +18,25 @@ export function BaseSelection({ BaseType }: Props) {
       <div className="bg-white text-black font-bold rounded-full w-8 h-8 flex items-center justify-center mb-4">
         2.
       </div>
+      <h2 className="font-semibold text-lg mb-6">Valitse salaattipohja</h2>
+      
+      <div className="w-full flex flex-col gap-4 min-h-[300px]">
+        {showBases ? (
+          BaseType.map((base) => (
+          <div
+            key={base.id}
+            className="h-12 border-2 border-gray-600 rounded-xl flex items-center px-4 hover:border-[#A2D135] cursor-pointer transition-colors"
+          >
+            <img
+              src={base.image_url}
+              alt={base.name}
+              className="h-8 w-8 object-contain"
+            />
+            <span>{base.name}</span>
+          </div>
+          ))
+        ) : (
+          <p className="text-gray-400 text-sm italic text-center mt-10">
 
       <h2 className="font-semibold text-lg mb-6">
         Valitse salaattipohja
@@ -53,7 +74,9 @@ export function BaseSelection({ BaseType }: Props) {
             Ei saatavilla olevia pohjia.
           </p>
         )}
+
       </div>
     </div>
   );
 }
+        
