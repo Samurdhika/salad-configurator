@@ -8,19 +8,16 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
-  
   const userName = useAuthStore((state) => state.userName);
   const logout = useAuthStore((state) => state.logout);
 
   return (
     <header className="relative w-full h-32">
-
       <div className="absolute inset-0 overflow-hidden rounded-b-3xl">
         <div className="bg-zinc-800 absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
       </div>
 
       <div className="relative z-10 flex items-center justify-between h-full px-8 text-white">
-        
         <div className="flex items-start pt-4">
           <Link to="/" className="w-24 h-24 flex items-center justify-center -mt-2 overflow-hidden">
             <img 
@@ -34,7 +31,7 @@ export default function Header() {
         <h1 className="text-3xl font-black tracking-widest mt-6">
           BOWL-LASKURI
         </h1>
- 
+
         <div className="relative">
           {!isMenuOpen && (
             <button onClick={() => setIsMenuOpen(true)} className="p-2">
@@ -57,23 +54,11 @@ export default function Header() {
 
               <div className="flex flex-col gap-8 w-full px-4">
                 
-               
+                {/* 1. User Greeting */}
                 {userName ? (
-                  <>
-                    <div className="flex items-center gap-5 font-semibold text-s">
-                      <UserIcon /> Hello, {userName}
-                    </div>
-
-                    <button
-                      onClick={() => {
-                        logout(); 
-                        setIsMenuOpen(false);
-                      }}
-                      className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity"
-                    >
-                      Logout
-                    </button>
-                  </>
+                  <div className="flex items-center gap-5 font-semibold text-s">
+                    <UserIcon /> Hello, {userName}
+                  </div>
                 ) : (
                   <button
                     onClick={() => {
@@ -86,13 +71,27 @@ export default function Header() {
                   </button>
                 )}
 
+                {/* 2. Tallennetut reseptit */}
                 <button className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity">
                   <BookmarkIcon /> <Link to="/community">Tallennetut reseptit</Link>
                 </button>
 
+                {/* 3. Ohjeet ja tuki */}
                 <button className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity">
                   <HelpIcon /> Ohjeet ja tuki
                 </button>
+
+                {userName && (
+                  <button
+                    onClick={() => {
+                      logout(); 
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex items-center gap-5 font-semibold text-s hover:opacity-70 transition-opacity"
+                  >
+                    Logout
+                  </button>
+                )}
 
               </div>
             </div>
@@ -100,12 +99,10 @@ export default function Header() {
         </div>
       </div>
 
-      
       <LoginModal
         isOpen={isLoginOpen}
         onClose={() => setIsLoginOpen(false)}
       />
-
     </header>
   );
 }
