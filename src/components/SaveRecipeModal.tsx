@@ -12,6 +12,7 @@ interface Props {
 export function SaveRecipeModal({ isOpen, onClose }: Props) {
   const [recipeName, setRecipeName] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
   const token = useAuthStore((state) => state.token);
@@ -19,53 +20,105 @@ export function SaveRecipeModal({ isOpen, onClose }: Props) {
   const selectedBowl = useIngredientStore((state) => state.selectedBowl);
   const clearSelection = useIngredientStore((state) => state.clearSelection);
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setSuccessMessage("");
 
-    if (!token || !selectedBowl) return;
+    if (!token) {
+      setError("You must be logged in");
+      return;
+    }
 
-    const ingredientIds = Object.values(slots)
-      .filter(Boolean)
-      .map((item) => item!.id);
+    if (!selectedBowl) {
+      setError("Please select a bowl");
+      return;
+    }
 
-    await saveRecipe(token, {
-      name: recipeName,
-      bowl_id: selectedBowl.id,
-      ingredient_ids: ingredientIds,
-      is_public: isPublic,
-    });
+    if (!recipeName.trim()) {
+      setError("Recipe name is required");
+      return;
+    }
 
-    setSuccessMessage("Recipe saved!");
+    try {
+      const ingredientIds = Object.values(slots)
+        .filter(Boolean)
+        .map((item) => item!.id);
 
-    clearSelection();
+      await saveRecipe(token, {
+        name: recipeName,
+        bowl_id: selectedBowl.id,
+        ingredient_ids: ingredientIds,
+        is_public: isPublic,
+      });
+
+      setSuccessMessage("Recipe saved successfully!");
+
+      // reset form
+      setRecipeName("");
+      setIsPublic(false);
+
+      // clear bowl
+      clearSelection();
+
+      // close modal after short delay (better UX)
+      setTimeout(() => {
+        onClose();
+        setSuccessMessage("");
+      }, 1200);
+
+    } catch (err) {
+      setError("Failed to save recipe");
+    }
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit}>
-        <h2>Recipe</h2>
+      <div className="bg-zinc-900 text-white rounded-3xl p-8 w-[360px] shadow-2xl">
 
-        <label>Recipe Name</label>
-        <input
-          type="text"
-          placeholder="Recipe Name"
-          value={recipeName}
-          onChange={(e) => setRecipeName(e.target.value)}
-        />
+        <h2 className="text-xl font-bold mb-4 text-center">
+          Save Recipe
+        </h2>
 
-        <label>Make Public</label>
-        <input
-          type="checkbox"
-          checked={isPublic}
-          onChange={(e) => setIsPublic(e.target.checked)}
-        />
-
-        <button type="submit">Save</button>
-         {successMessage && (
-          <p style={{ color: "green" }}>{successMessage}</p>
+        {error && (
+          <p className="text-red-500 text-sm mb-3 text-center">
+            {error}
+          </p>
         )}
-      </form>
+
+        {successMessage && (
+          <p className="text-green-500 text-sm mb-3 text-center">
+            {successMessage}
+          </p>
+        )}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+
+          <input
+            type="text"
+            placeholder="Recipe Name"
+            value={recipeName}
+            onChange={(e) => setRecipeName(e.target.value)}
+            className="p-2 rounded bg-zinc-800 border border-zinc-700"
+          />
+
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
+            />
+            Make Public
+          </label>
+
+          <button
+            type="submit"
+            className="bg-[#A2D135] text-black font-semibold py-2 rounded"
+          >
+            Save
+          </button>
+        </form>
+      </div>
     </Modal>
   );
 }
