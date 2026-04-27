@@ -84,7 +84,7 @@ export function Community() {
 
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {recipes.map((recipe) => {
-            const slots = Object.values(recipe.slots);
+            const slots = Object.values(recipe.slots || {});
             
             return (
               <div
