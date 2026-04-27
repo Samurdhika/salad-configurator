@@ -14,6 +14,8 @@ interface IngredientStore {
   addIngredient: (item: Ingredient) => void;
   removeIngredient: (id: number) => void;
   clearSlot: (slotKey:string) => void;
+
+  loadRecipe: (recipe: any, allBowls: Bowl[]) => void;
 }
 
 export const useIngredientStore = create<IngredientStore>((set) => ({
@@ -86,4 +88,26 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
           [slotKey]: null,
         },
       })),
+      loadRecipe: (recipe, allBowls) =>
+    set(() => {
+      // 1. Find the correct bowl object from the provided list
+      const targetBowl = allBowls.find((b) => b.id === recipe.bowl_id);
+
+      // 2. Prepare the slots. We ensure the keys match your 'slot-X' format
+      const newSlots: Record<string, Ingredient | null> = {};
+      
+      if (recipe.slots) {
+        Object.entries(recipe.slots).forEach(([key, value]) => {
+          // Mapping the API data to the Ingredient type used in the store
+          newSlots[key] = value as Ingredient;
+        });
+      }
+
+      return {
+        selectedBowl: targetBowl || null,
+        // If targetBowl exists, update baseType to match that bowl's base_type_id
+        baseType: targetBowl ? targetBowl.base_type_id : 1,
+        slots: newSlots,
+      };
+    }),
 }));
