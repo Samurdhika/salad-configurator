@@ -26,10 +26,10 @@ export function CenterBowl() {
   };
 
   const wedgePositions4: Record<string, string> = {
-    "slot-1": "top-10 left-20 -translate-x-1/2",
-    "slot-2": "top-10 right-3 -translate-x-1/2",
-    "slot-3": "bottom-16 right-8",
-    "slot-4": "bottom-16 left-8",
+    "slot-1": "top-5 left-3",
+    "slot-2": "top-6 right-5",
+    "slot-3": "bottom-4 right-3",
+    "slot-4": "bottom-5 left-2",
   };
 
   const rotationDegrees: Record<string, string> = {
@@ -41,15 +41,24 @@ export function CenterBowl() {
     "slot-6": "rotate-[300deg]",
   };
 
+  const rotationDegrees4: Record<string, string> = {
+    "slot-1": "rotate-[315deg]",
+    "slot-2": "rotate-[45deg]",
+    "slot-3": "rotate-[135deg]",
+    "slot-4": "rotate-[225deg]",
+  };
+
   const slotCount = selectedBowl?.slot_count ?? 6;
   const wedgePositions = slotCount === 4 ? wedgePositions4 : wedgePositions6;
+
+  const activeRotations = slotCount === 4 ? rotationDegrees4 : rotationDegrees;
 
   const renderedIngredients = Object.entries(slots).map(
     ([slotKey, ingredient]) => {
       if (!ingredient || slotKey === "base") return null;
 
       return (
-        <div key={slotKey} className={`absolute z-30 flex flex-col items-center justify-center ${wedgePositions[slotKey]} ${rotationDegrees[slotKey] || ""}`}>
+        <div key={slotKey} className={`absolute z-30 flex flex-col items-center justify-center ${wedgePositions[slotKey]} ${activeRotations[slotKey] || ""}`}>
           <img
             src={ingredient.wedge_image_url}
             alt={ingredient.name}
