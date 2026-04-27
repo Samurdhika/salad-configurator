@@ -17,6 +17,7 @@ export function Configurator() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [baseTypes, setBaseTypes] = useState<BaseType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const baseType = useIngredientStore((state) => state.baseType);
   const fetchPrices = usePriceStore((state) => state.fetchPrices);
@@ -24,6 +25,8 @@ export function Configurator() {
 
   useEffect(() => {
     async function fetchData() {
+      setIsLoading(true);
+
       try {
         const [bowlsData, categoriesData, ingredientsData, baseTypesData] = await Promise.all([
           getBowls(baseType),
@@ -31,12 +34,15 @@ export function Configurator() {
           getIngredients(),
           getBaseType(),
         ]);
+
         setBowls(bowlsData);
         setCategories(categoriesData);
         setIngredients(ingredientsData);
         setBaseTypes(baseTypesData);
       } catch (error) {
         console.error("Failed to fetch data:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchData();
@@ -50,6 +56,14 @@ export function Configurator() {
 
   const filteredBowls = bowls.filter(bowl => bowl.base_type_id === baseType);
   const filteredCategories = categories.filter(cat => cat.id);
+
+  if(isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <p className="text-gray-600 text-lg animate-pulse">Ladataan...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-white p-8 flex flex-col gap-8">
