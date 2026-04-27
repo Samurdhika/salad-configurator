@@ -32,6 +32,15 @@ export function CenterBowl() {
     "slot-4": "bottom-16 left-8",
   };
 
+  const rotationDegrees: Record<string, string> = {
+    "slot-1": "rotate-0",
+    "slot-2": "rotate-[60deg]",
+    "slot-3": "rotate-[120deg]",
+    "slot-4": "rotate-180",
+    "slot-5": "rotate-[240deg]",
+    "slot-6": "rotate-[300deg]",
+  };
+
   const slotCount = selectedBowl?.slot_count ?? 6;
   const wedgePositions = slotCount === 4 ? wedgePositions4 : wedgePositions6;
 
@@ -40,11 +49,11 @@ export function CenterBowl() {
       if (!ingredient || slotKey === "base") return null;
 
       return (
-        <div key={slotKey} className={`absolute z-30 ${wedgePositions[slotKey]}`}>
+        <div key={slotKey} className={`absolute z-30 flex flex-col items-center justify-center ${wedgePositions[slotKey]} ${rotationDegrees[slotKey] || ""}`}>
           <img
             src={ingredient.wedge_image_url}
             alt={ingredient.name}
-            className="w-20 h-20 object-contain"
+            className="w-32 h-32 object-contain scale-110 transition-transform duration-500 mt-[-10%]"
           />
 
           <button
@@ -118,14 +127,18 @@ export function CenterBowl() {
               className="absolute inset-0 w-full h-full object-contain z-0"
             />
           )}
-
+        
           {slots.base && (
-            <img
-              src={slots.base.image_url}
-              alt={slots.base.name}
-              className="absolute inset-0 w-full h-full object-cover z-10 opacity-70"
-            />
-          )}
+       <div className="absolute inset-0 flex items-center justify-center z-10">
+       <div className="w-[85%] h-[85%] rounded-full overflow-hidden">
+       <img
+        src={slots.base.image_url}
+        alt={slots.base.name}
+        className="w-full h-full object-cover opacity-90"
+      />
+    </div>
+  </div>
+)}
 
           {selectedBowl?.slot_count === 6 && (
             <img
