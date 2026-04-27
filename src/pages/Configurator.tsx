@@ -26,8 +26,8 @@ export function Configurator() {
     async function fetchData() {
       try {
         const [bowlsData, categoriesData, ingredientsData, baseTypesData] = await Promise.all([
-          getBowls(),
-          getCategories(),
+          getBowls(baseType),
+          getCategories(baseType),
           getIngredients(),
           getBaseType(),
         ]);
@@ -40,7 +40,7 @@ export function Configurator() {
       }
     }
     fetchData();
-  }, []);
+  }, [baseType]); 
 
   useEffect(() => {
     if (token) {
