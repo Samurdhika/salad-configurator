@@ -1,16 +1,24 @@
-import type { Ingredient } from "../types";
-import type { PriceListItem } from "../types";
+import type { Ingredient, PriceListItem, Bowl } from "../types";
 
 export const calculateTotalWeight = (ingredients: Ingredient[]): number => {
-  return ingredients.reduce((sum, item: any) => {
-    return sum + (item.weight_grams || 0);
-  }, 0);
+  return ingredients.length * 100; 
 };
 
-export const calculateTotalPrice = (ingredients: Ingredient[], prices: PriceListItem[]): number => {
-  return ingredients.reduce((sum, item) => {
-    const priceEntry = prices.find((p) => p.item_id === item.id);
-    const price = priceEntry ? priceEntry.price : 0;
-    return sum + price;
+export const calculateTotalPrice = (
+  ingredients: Ingredient[],
+  priceList: PriceListItem[],
+  selectedBowl: Bowl | null
+): number => {
+  const bowlPrice = selectedBowl?.price || 0;
+
+  const ingredientsPrice = ingredients.reduce((total, ingredient) => {
+    const priceItem = priceList.find((p) => String(p.item_id) === String(ingredient.id));
+    
+    if (priceItem) {
+      return total + Number(priceItem.price);
+    }
+    return total;
   }, 0);
+
+  return bowlPrice + ingredientsPrice;
 };
