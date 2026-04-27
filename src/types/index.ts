@@ -46,5 +46,5 @@ export interface Category {
 export interface Ingredient extends BaseType {
   categoryId: number;
   diets: string[];
-  image_url: string
+  wedge_image_url: string
 }

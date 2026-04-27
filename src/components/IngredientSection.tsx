@@ -8,21 +8,19 @@ type IngredientSectionProps = {
   ingredients: Ingredient[];
 };
 
-
 export function IngredientSection({
   categories,
-  ingredients
+  ingredients,
 }: IngredientSectionProps) {
-  const [activeCategory, setActiveCategory] = useState("");
+  
+  const [activeCategory, setActiveCategory] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
 
   const { baseType } = useIngredientStore();
 
-  console.log("Categories:", categories); console.log("Ingredients:", ingredients); console.log("Active:", activeCategory);
-
  
-  const salaattiCategoryIds = [5,6,7,8,9];
-  const rahkaCategoryIds = [1,2,3,4];      
+  const salaattiCategoryIds = [5, 6, 7, 8, 9];
+  const rahkaCategoryIds = [1, 2, 3, 4];
 
   
   const filteredCategories = categories.filter((category) => {
@@ -33,16 +31,12 @@ export function IngredientSection({
 
   
   const filteredIngredients = ingredients.filter((ingredient) => {
-    if (baseType === 1) {
-      return salaattiCategoryIds.includes(ingredient.categoryId);
-    }
-    if (baseType === 2) {
-      return rahkaCategoryIds.includes(ingredient.categoryId);
-    }
+    if (baseType === 1) return salaattiCategoryIds.includes(ingredient.categoryId);
+    if (baseType === 2) return rahkaCategoryIds.includes(ingredient.categoryId);
     return true;
   });
 
- 
+  
   const visibleIngredients = filteredIngredients.filter((ingredient) => {
     const matchesCategory =
       activeCategory === "all" ||
@@ -68,8 +62,9 @@ export function IngredientSection({
         </h2>
       </div>
 
-     
+      
       <div className="flex gap-4 items-center overflow-x-auto justify-center">
+
         
         <input
           type="text"
@@ -79,6 +74,9 @@ export function IngredientSection({
           className="rounded-full px-6 py-3 text-black w-64"
         />
 
+        
+
+      
         {filteredCategories.map((category) => (
           <div
             key={category.id}
@@ -94,7 +92,7 @@ export function IngredientSection({
         ))}
       </div>
 
-  
+     
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
         {visibleIngredients.map((ingredient) => (
           <IngredientCard
@@ -102,6 +100,41 @@ export function IngredientSection({
             ingredient={ingredient}
           />
         ))}
+      </div>
+
+      
+      <div className="mt-10 flex justify-center">
+        <div className="bg-zinc-700/40 rounded-full px-6 py-3 flex flex-wrap justify-center items-center gap-6 text-sm text-gray-300">
+
+          <div className="flex items-center gap-2">
+            <span className="bg-[#A2D135] text-black w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold">
+              G
+            </span>
+            <span>gluteeniton</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="bg-[#A2D135] text-black w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold">
+              L
+            </span>
+            <span>laktoositon</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="bg-[#A2D135] text-black w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold">
+              VL
+            </span>
+            <span>vähälaktoosinen</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="bg-[#A2D135] text-black w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold">
+              V
+            </span>
+            <span>soveltuu vegaaniseen ruokavalioon</span>
+          </div>
+
+        </div>
       </div>
     </div>
   );
