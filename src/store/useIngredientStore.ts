@@ -13,6 +13,7 @@ interface IngredientStore {
 
   addIngredient: (item: Ingredient) => void;
   removeIngredient: (id: number) => void;
+  clearSlot: (slotKey:string) => void;
 }
 
 export const useIngredientStore = create<IngredientStore>((set) => ({
@@ -52,6 +53,7 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
 
       for (let i = 1; i <= slotCount; i++) {
         const slotKey = `slot-${i}`;
+
         if (!state.slots[slotKey]) {
           return {
             slots: { ...state.slots, [slotKey]: item },
@@ -76,4 +78,12 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
 
       return { slots: newSlots };
     }),
+
+    clearSlot: (slotKey) =>
+      set((state) => ({
+        slots: {
+          ...state.slots,
+          [slotKey]: null,
+        },
+      })),
 }));
