@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/* Added the basename so it matches your VAMK folder path */}
-    <BrowserRouter basename="/~e2403004/salad">
+    <BrowserRouter>
         <App />
     </BrowserRouter>
   </StrictMode>,
